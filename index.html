@@ -191,9 +191,9 @@ img{max-width:100%}
     <div class="hero-copy">
       <span class="eyebrow">ต้นแบบเกม · Shooter PvP 3D</span>
       <h1>ป้อมเหล็ก 6 ฐาน</h1>
-      <p>เกมยิง 3D มุมมองบุคคลที่ 1 (เห็นมือกับปืน) เดินเก็บอาวุธ เกราะ และยาตามแผนที่ สนามเป็นโอเอซิสกลางทะเลทราย ก่อนรบทุกคนสร้างฐานของตัวเองด้วยดินกับหิน แล้วยิงกันเองแบบทุกคนเป็นศัตรู เล่นกับบอทหรือเปิดห้องออนไลน์ให้เพื่อนเข้าได้ ฐานแตกหรือชีวิตหมดคือตกรอบ คนสุดท้ายที่รอดชนะ</p>
+      <p>เกมยิง 3D มุมมองบุคคลที่ 1 (เห็นมือกับปืน) เดินเก็บอาวุธ เกราะ และยาตามแผนที่ สนามเป็นโอเอซิสกลางทะเลทราย ยิงกันเองแบบทุกคนเป็นศัตรู แต่ละคนมีชีวิตตามที่ตั้งไว้ ตายแล้วเกิดใหม่ ชีวิตหมดคือตกรอบ คนสุดท้ายที่รอดชนะ เล่นกับบอทหรือเปิดห้องออนไลน์ให้เพื่อนเข้าได้</p>
       <div class="reqs" aria-label="สิ่งที่ต้นแบบนี้ครอบคลุม">
-        <span>สร้างฐานเอง</span><span>เก็บอาวุธตามแผนที่</span><span>ปืน 4 แบบ · เกราะ · ยา</span><span>5–6 ผู้เล่น</span><span>ยิงกันเอง (PvP)</span><span>สร้างห้อง + เติมบอท</span>
+        <span>เก็บอาวุธตามแผนที่</span><span>ปืน 4 แบบ · เกราะ · ยา</span><span>5–6 ผู้เล่น</span><span>ยิงกันเอง (PvP)</span><span>สร้างห้อง + เติมบอท</span>
       </div>
     </div>
     <figure class="hero-art" style="margin:0">
@@ -243,7 +243,7 @@ img{max-width:100%}
           <select id="setTime"><option value="180">3 นาที</option><option value="300" selected>5 นาที</option><option value="600">10 นาที</option><option value="0">ไม่จำกัด</option></select></div>
         <div class="field"><label for="setItems">ของเกิดเพิ่มบ่อยแค่ไหน</label>
           <select id="setItems"><option value="10">น้อย (~10 วิ)</option><option value="6" selected>ปกติ (~6 วิ)</option><option value="3.5">เยอะมาก (~3.5 วิ)</option></select></div>
-        <div class="field"><label for="setSelf">ยิงฐานตัวเอง</label>
+        <div class="field" hidden><label for="setSelf">ยิงฐานตัวเอง</label>
           <select id="setSelf"><option value="0" selected>ไม่เสียหาย</option><option value="1">เสียหาย (แบบคลาสสิก)</option></select></div>
         <div class="field"><label for="setSens">ความไวเมาส์ (เฉพาะเครื่องนี้)</label>
           <select id="setSens"><option value="0.4">ต่ำมาก</option><option value="0.6">ต่ำ</option><option value="0.8">ค่อนข้างต่ำ</option><option value="1" selected>ปกติ</option><option value="1.3">สูง</option><option value="1.7">สูงมาก</option></select></div>
@@ -261,7 +261,7 @@ img{max-width:100%}
     <div class="sec-head">
       <span class="eyebrow">ของในแผนที่</span>
       <h2>เก็บอาวุธ เกราะ และยาตามแผนที่</h2>
-      <p class="muted">พอจบช่วงสร้างฐาน ของจะกระจายอยู่ทั่วแผนที่ประมาณ 130 ชิ้น และเกิดเพิ่มเรื่อย ๆ ตามที่ตั้งไว้ เดินไปใกล้แล้วกด F เพื่อเก็บ ของหายากมีลำแสงสูง ใครตายจะทำของทั้งหมดหล่นไว้ตรงนั้น</p>
+      <p class="muted">เริ่มเกมมา ของจะกระจายอยู่ทั่วแผนที่ประมาณ 130 ชิ้น และเกิดเพิ่มเรื่อย ๆ ตามที่ตั้งไว้ เดินไปใกล้แล้วกด F เพื่อเก็บ ของหายากมีลำแสงสูง ใครตายจะทำของทั้งหมดหล่นไว้ตรงนั้น</p>
     </div>
     <div class="items" id="itemList"></div>
   </section>
@@ -272,12 +272,12 @@ img{max-width:100%}
       <h2>วิธีเล่น</h2>
     </div>
     <div class="rules">
-      <div class="rule"><h3>ฐานและการตกรอบ</h3>
-        <ul><li>เริ่มเกมมีเวลา 45 วินาทีให้สร้างฐานเอง ได้ดิน 30 ก้อน หิน 4 ก้อน วางในกรอบรอบแกน</li><li>ห้ามวางหินในรัศมี 3 ช่องรอบแกน แกนจะมีเหล็กล้อมได้จากไอเทมเสริมป้อมเท่านั้น</li><li>แกนมีเลือด 5 ขีด (1,000 หน่วย) ยิงด้วยปืนจนหมดแล้วแตก เจ้าของตกรอบทันที</li><li>ชีวิตหมดก็ตกรอบ แม้ฐานยังอยู่</li><li>ตายแล้วเกิดใหม่ข้างฐานใน 4 วินาที พร้อมปืนพก ของที่เก็บมาหล่นไว้ที่จุดตาย</li></ul></div>
+      <div class="rule"><h3>ชีวิตและการตกรอบ</h3>
+        <ul><li>ทุกคนมีชีวิตเท่ากันตามที่ตั้งในห้อง (ค่าเริ่มต้น 3)</li><li>ตายแล้วเกิดใหม่ใน 4 วินาที ที่จุดเกิดซึ่งไกลศัตรูที่สุด พร้อมปืนพกและกระสุน 24 นัด</li><li>ของที่เก็บมาทั้งหมดหล่นไว้ที่จุดตายให้คนอื่นเก็บ</li><li>ชีวิตหมดคือตกรอบ</li></ul></div>
       <div class="rule"><h3>ภูมิประเทศ</h3>
         <ul><li><b>ดิน (อิฐ)</b> กระสุนยิงทะลุไม่ได้ แต่ยิงหลายนัดจนพังได้</li><li><b>หิน</b> ยิงไม่พัง ใช้เป็นที่กำบังถาวร</li><li><b>น้ำ</b> เดินลุยไม่ได้ กระสุนผ่านได้</li><li><b>พุ่มไม้</b> สูงกว่าตัวคน ซ่อนตัวได้ บอทมองไม่เห็นถ้าอยู่ไกล</li></ul></div>
       <div class="rule"><h3>การชนะ</h3>
-        <ul><li>คนสุดท้ายที่ยังไม่ตกรอบชนะ</li><li>ถ้าหมดเวลา เรียงตามคะแนน: ทำลายฐาน 500 · สังหาร 100 · ยิงฐาน 1 คะแนนต่อความเสียหาย 5</li></ul></div>
+        <ul><li>คนสุดท้ายที่ยังไม่ตกรอบชนะ</li><li>ถ้าหมดเวลา เรียงตามคะแนน: สังหาร 100 · เก็บของ 5</li></ul></div>
       <div class="rule"><h3>ปุ่มควบคุม</h3>
         <p><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> เดิน · <kbd>Shift</kbd> วิ่ง · เมาส์ หันและเล็ง · คลิกซ้ายยิง · คลิกขวาเล็งหรือส่องกล้อง</p>
         <p><kbd>F</kbd> เก็บของ · <kbd>R</kbd> รีโหลด · <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> หรือล้อเมาส์ สลับปืน · <kbd>4</kbd> ผ้าพันแผล · <kbd>5</kbd> ชุดปฐมพยาบาล</p>
@@ -314,8 +314,7 @@ flowchart LR
 stateDiagram-v2
   [*] --> Waiting: host สร้างห้อง
   Waiting --> Waiting: คนเข้า / เพิ่มบอท
-  Waiting --> Building: host กดเริ่ม
-  Building --> Countdown: ทุกคนพร้อม หรือครบ 45 วิ
+  Waiting --> Countdown: host กดเริ่ม
   Countdown --> Playing: 3 วินาที
   Playing --> Results: เหลือ 1 คน หรือหมดเวลา
   Results --> Waiting: เล่นอีกครั้ง
@@ -341,7 +340,6 @@ stateDiagram-v2
           <tbody>
             <tr><td><b>Room</b></td><td><code>code, host, state, settings{lives,time,itemEvery,selfDamage}, seed, slots[6]</code></td><td>slot ว่าง / คน / บอท(ง่าย·กลาง·ยาก)</td></tr>
             <tr><td><b>Player</b></td><td><code>slot, kind, lives, rank 0–3, kills, deaths, score, out, dirt 30, stone 4</code></td><td>rank รีเซ็ตเป็น 0 เมื่อตาย</td></tr>
-            <tr><td><b>Base</b></td><td><code>slot, core{x,y}, hp 5, ring[], alive, fortifyUntil</code></td><td>6 ตำแหน่ง: 4 มุม + กลางบน/ล่าง</td></tr>
             <tr><td><b>Soldier</b></td><td><code>x, y, yaw, pitch, hp, vest, helm, guns[3], ammo{9mm,12g,7.62}, bandage, medkit</code></td><td>วงกลมรัศมี 0.35 ม. เดินได้ทุกทิศ</td></tr>
             <tr><td><b>Shot</b></td><td><code>origin, yaw, spread, pellets, damage</code></td><td>ยิงแบบ hitscan ตรวจกำแพงทีละช่อง</td></tr>
             <tr><td><b>Loot</b></td><td><code>id, type, x, y, amount, mag</code></td><td>ประมาณ 130–240 ชิ้นบนแผนที่</td></tr>
@@ -434,8 +432,7 @@ const LOOT={
   helm2:{n:'หมวกนิรภัย ระดับ 2',c:'#a8b97c',w:3.5,kind:'helm',lv:2,d:'ลดความเสียหายเพิ่ม 10% / 15% / 20% ใส่คู่กับเสื้อเกราะได้'},
   helm3:{n:'หมวกนิรภัย ระดับ 3',c:'#86a6c9',w:1.2,kind:'helm',lv:3,rare:1},
   bandage:{n:'ผ้าพันแผล',c:'#f2efe6',w:10,kind:'heal',amt:2,d:'กด 4 ใช้ 2.5 วินาที ฟื้นเลือด 20 เก็บได้ 10 ชิ้น'},
-  medkit:{n:'ชุดปฐมพยาบาล',c:'#ef6a52',w:3,kind:'heal',amt:1,rare:1,d:'กด 5 ใช้ 5.5 วินาที เลือดเต็ม 100 เก็บได้ 3 ชุด'},
-  fort:{n:'เสริมป้อม',c:'#e0b27a',w:1.6,kind:'fort',rare:1,d:'ซ่อมแกนกลับเป็น 5/5 ซ่อมกำแพงรอบฐาน และเปลี่ยนเป็นหิน 15 วินาที'}};
+  medkit:{n:'ชุดปฐมพยาบาล',c:'#ef6a52',w:3,kind:'heal',amt:1,rare:1,d:'กด 5 ใช้ 5.5 วินาที เลือดเต็ม 100 เก็บได้ 3 ชุด'},};
 const BDIFF={easy:{see:300,react:.7,turn:2.4,err:.11},normal:{see:430,react:.4,turn:4.2,err:.055},hard:{see:580,react:.22,turn:7,err:.025}};
 const E=0,BR=1,ST=2,WA=3,TR=4,CO=5;
 const DIRV=[[0,-1],[1,0],[0,1],[-1,0]];
@@ -485,7 +482,6 @@ function genMap(seed,active){
       const[cx,cy]=tp.core,[sx]=tp.spawn;
       const x0=Math.min(cx-12,sx-4),x1=Math.max(cx+15,sx+7),y1=cy+15;
       for(let y=0;y<=y1;y++)for(let x=x0;x<=x1;x++)if(x>=0&&x<GW)t[y*GW+x]=E;
-      for(let y=cy;y<cy+4;y++)for(let x=cx;x<cx+4;x++)t[y*GW+x]=CO;
     }
     for(let y=GH/2;y<GH;y++)for(let x=0;x<GW;x++)t[y*GW+x]=t[(GH-1-y)*GW+(GW-1-x)];
     {const ph=R()*Math.PI,setC=(x,y,v)=>{for(const k of cellSubs(x,y))t[k]=v;for(const k of cellSubs(GW/2-1-x,GH/2-1-y))t[k]=v};
@@ -495,7 +491,6 @@ function genMap(seed,active){
        else if(r<8.4)setC(x,y,hash2(x+seed,y*5+a)<.55?TR:E);
        else if(r<9.4)setC(x,y,E)}}
     const own=new Int8Array(GW*GH).fill(-1);
-    BASES.forEach((b,i)=>{const[cx,cy]=b.core;for(let y=cy;y<cy+4;y++)for(let x=cx;x<cx+4;x++){const k=y*GW+x;if(active[i])own[k]=i;else t[k]=ST}});
     const cand={t,own};
     if(checkConn(t,active))return cand;
     if(!best)best=cand;
@@ -592,7 +587,7 @@ function buildSlots(){
   const box=$('#slots');box.innerHTML='';
   lobby.slots.forEach((k,i)=>{
     const d=document.createElement('div');d.className='slot'+(k==='none'?' off':'');
-    d.innerHTML=`<span class="chip" style="--c:${COLORS[i].c}"></span><div class="slot-meta"><b>ช่อง ${i+1} · ${COLORS[i].n}</b><small>ฐาน${BASE_LABEL[i]}</small></div>`;
+    d.innerHTML=`<span class="chip" style="--c:${COLORS[i].c}"></span><div class="slot-meta"><b>ช่อง ${i+1} · ${COLORS[i].n}</b><small>จุดเกิด${BASE_LABEL[i]}</small></div>`;
     const s=document.createElement('select');s.id='slot'+i;s.setAttribute('aria-label','ช่อง '+(i+1));
     const mine=NET.role==='client'&&i===NET.mySlot;
     for(const key of Object.keys(KIND_LABEL)){if(key==='net'&&k!=='net')continue;if(NET.role==='client'&&key!==k)continue;
@@ -613,7 +608,6 @@ function renderMapTo(cv,map,active,showTanks){
   drawGround(c);
   for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const v=map.t[y*GW+x],px=x*SUB,py=y*SUB;
     if(v===BR)drawBrick(c,px,py,x,y);else if(v===ST)drawSteel(c,px,py,x,y);else if(v===WA)drawWater(c,px,py,x,y,0)}
-  BASES.forEach((b,i)=>{if(active[i])drawCore(c,b,COLORS[i].c,1,true)});
   if(showTanks)BASES.forEach((b,i)=>{if(active[i])drawTankBody(c,b.spawn[0]*SUB,b.spawn[1]*SUB,i&1?0:2,COLORS[i].c,i%4,0)});
   for(let y=0;y<GH;y++)for(let x=0;x<GW;x++)if(map.t[y*GW+x]===TR)drawTree(c,x*SUB,y*SUB,x,y);
   return c;
@@ -630,7 +624,7 @@ function drawHero(){
 }
 function buildItemList(){
   const box=$('#itemList');
-  for(const k of['rifle','shotgun','sniper','pistol','am762','vest2','helm2','bandage','medkit','fort']){const it=LOOT[k];
+  for(const k of['rifle','shotgun','sniper','pistol','am762','vest2','helm2','bandage','medkit']){const it=LOOT[k];
     const d=document.createElement('div');d.className='item';
     const cv=document.createElement('canvas');cv.width=80;cv.height=80;
     const c=cv.getContext('2d');c.scale(80/28,80/28);drawItemIcon(c,k,0,0,28);
@@ -838,13 +832,11 @@ function startGame(cfgIn,tilesIn){
     const nm=k==='net'?(lobby.names[i]||'เพื่อน'):hostName||(k==='p1'?'ผู้เล่น 1':k==='p2'?'ผู้เล่น 2':'บอท'+COLORS[i].n);
     G.players.push({slot:i,kind:k,bot:!human,diff:human?null:k,color:COLORS[i].c,ready:false,
       name:nm,tag:k==='net'||hostName?nm.slice(0,5):k==='p1'?'P1':k==='p2'?'P2':'B'+(i+1),
-      base:b,ring,dirt:DIRT,stone:STONE,baseAlive:true,coreHP:CORE_HP,corePts:CORE_MAX,coreT:0,fortT:0,lives:cfg.lives,state:'dead',respawnT:.1,spawnT:0,
+      base:b,ring,dirt:DIRT,stone:STONE,baseAlive:false,coreHP:CORE_HP,corePts:CORE_MAX,coreT:0,fortT:0,lives:cfg.lives,state:'dead',respawnT:.1,spawnT:0,
       x:b.spawn[0]*SUB+16,y:b.spawn[1]*SUB+16,yaw:i&1?0:Math.PI,pitch:0,hp:100,vest:0,helm:0,guns:[null,null,{t:'pistol',mag:12}],cur:2,ammo:{am9:24,am12:0,am762:0},band:0,med:0,heal:null,reload:0,cd:0,
       mv:0,step:0,flash:0,hurt:0,hurtA:0,hitT:0,inv:0,ads:false,sprint:false,toast:null,lc:{r:0,k:0,ws:0,hb:0,hm:0},kills:0,deaths:0,score:0,out:false,outAt:0,
       ai:{replan:0,think:Math.random()*.5,path:null,pref:Math.random(),goal:null}});
   });
-  if(NET.role!=='client')for(const p of G.players)if(p.bot)autoBuild(p);
-  if(G.players.some(p=>!p.bot)){G.phase='build';G.countdown=0;setTool('dirt');bbMsg('คลิกหรือลากในกรอบเส้นประรอบฐาน · คลิกขวาเพื่อเก็บคืน · ห้ามวางหินในช่องสีแดง (รัศมี 3 ช่องรอบแกน)')}
   $('#buildBar').hidden=G.phase!=='build';
   redrawTiles();w3Load(G);LI.yaw=(G.players.find(isMine)||{yaw:0}).yaw;LI.pitch=0;
   $('#gRoom').textContent=cfg.name;$('#gCode').textContent=lobby.code;
@@ -1096,8 +1088,8 @@ function botUpdate(p,dt){
       if(intr)goal={x:intr.x,y:intr.y,slot:-1,kind:'hunt'};
       if(!goal){const prim=[p.guns[0],p.guns[1]].filter(Boolean),low=prim.length&&prim.every(g=>g.mag+p.ammo[WEAPONS[g.t].ammo]<15),weak=!prim.length||low||(p.vest===0&&G.elapsed<50);let bl=null,bd=weak?420:(G.elapsed<90?110:50);
         for(const l of G.loot){if(ai.bad&&ai.bad.has(l.id))continue;const d=Math.hypot(l.x-p.x,l.y-p.y);if(d<bd&&lootUseful(p,l)){bd=d;bl=l}}if(bl)goal={x:bl.x,y:bl.y,slot:-1,kind:'loot',id:bl.id}}
-      if(!goal){let bc=null,bd=1e9;for(const q of G.players){if(q===p||!q.baseAlive)continue;const d=Math.hypot(q.base.core[0]*SUB+16-p.x,q.base.core[1]*SUB+16-p.y)*(1.2-ai.pref*.4);if(d<bd){bd=d;bc=q}}
-        if(bc)goal={x:bc.base.core[0]*SUB+8,y:bc.base.core[1]*SUB+8,slot:bc.slot,kind:'core',q:bc}}
+      if(!goal){let bq=null,bd=1e9;for(const q of G.players){if(q===p||q.state!=='alive')continue;const d=Math.hypot(q.x-p.x,q.y-p.y)*(q.bot?1:.8+ai.pref*.4);if(d<bd){bd=d;bq=q}}
+        if(bq)goal={x:bq.x,y:bq.y,slot:-1,kind:'hunt',id:bq.slot}}
       if(goal&&(!ai.goal||ai.goal.kind!==goal.kind||ai.goal.id!==goal.id||ai.replan<=0||Math.hypot(goal.x-ai.goal.x,goal.y-ai.goal.y)>24)){
         ai.goal=goal;ai.replan=1.2+Math.random();ai.path=findPath(Math.floor(p.x/SUB),Math.floor(p.y/SUB),Math.floor(goal.x/SUB),Math.floor(goal.y/SUB),goal.slot);
         if(!ai.path){if(goal.kind==='loot')(ai.bad||(ai.bad=new Set())).add(goal.id);ai.goal=null;ai.path=[];ai.wanderT=1.2;ai.wyaw=Math.random()*6.28}}
@@ -1227,8 +1219,8 @@ function update(dt){
     if(p.coreT>0)p.coreT-=dt;
     if(p.fortT>0){p.fortT-=dt;if(p.fortT<=0&&p.baseAlive)setRing(p,BR)}
     if(p.out)continue;
-    if(p.state==='dead'){p.respawnT-=dt;if(p.respawnT<=0){const sx=p.base.spawn[0]*SUB+16,sy=p.base.spawn[1]*SUB+16;
-      if(circFree(sx,sy)){p.x=sx;p.y=sy;p.yaw=p.slot&1?0:Math.PI;resetKit(p);p.state='spawning';p.spawnT=.9;sfx('spawn');if(isMine(p)&&NET.role!=='client')LI.yaw=p.yaw}}continue}
+    if(p.state==='dead'){p.respawnT-=dt;if(p.respawnT<=0){const sp=safeSpawn(p),sx=sp.x,sy=sp.y;
+      if(circFree(sx,sy)){p.x=sx;p.y=sy;p.yaw=sp.yaw;resetKit(p);p.state='spawning';p.spawnT=.9;sfx('spawn');if(isMine(p)&&NET.role!=='client')LI.yaw=p.yaw}}continue}
     if(p.state==='spawning'){p.spawnT-=dt;if(p.spawnT<=0){p.state='alive';p.inv=2}continue}
     if(p.bot)botUpdate(p,dt);else humanUpdate(p,dt);
   }
@@ -1237,14 +1229,20 @@ function update(dt){
   if(G.flash>0)G.flash-=dt;
   G.uiT-=dt;if(G.uiT<=0){G.uiT=.12;renderSide()}
 }
+function safeSpawn(p){
+  if(p.deaths===0)return{x:p.base.spawn[0]*SUB+16,y:p.base.spawn[1]*SUB+16,yaw:p.slot&1?0:Math.PI};
+  let best=null,bs=-1;BASES.forEach((b,i)=>{const x=b.spawn[0]*SUB+16,y=b.spawn[1]*SUB+16;if(!circFree(x,y))return;
+    let d=1e9;for(const q of G.players)if(q!==p&&q.state==='alive')d=Math.min(d,Math.hypot(q.x-x,q.y-y));d+=Math.random()*40;if(d>bs){bs=d;best={x,y,yaw:i&1?0:Math.PI}}});
+  return best||{x:p.base.spawn[0]*SUB+16,y:p.base.spawn[1]*SUB+16,yaw:0};
+}
 function fmt(s){s=Math.max(0,Math.ceil(s));return String((s/60)|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
 function renderSide(){
   $('#gTimer').textContent=G.cfg.time>0?fmt(G.cfg.time-G.elapsed):fmt(G.elapsed);
   $('#gPlayers').innerHTML=G.players.map(p=>{
-    const base=!p.baseAlive?'<span class="pill dead">ฐานแตก</span>':`<span class="pill ${p.fortT>0?'fort':p.coreHP<CORE_HP?'dead':'ok'}">ฐาน ${p.coreHP}/${CORE_HP}${p.fortT>0?' · ป้อมเหล็ก':''}</span>`;
-    const st=G.phase==='build'?'สร้างฐาน':p.out?'ตกรอบ':p.state==='dead'?'รอเกิด':'';
+    const base=p.out?'<span class="pill dead">ตกรอบ</span>':`<span class="pill ok">เหลือ ${p.lives} ชีวิต</span>`;
+    const st=p.out?'':p.state==='dead'?'รอเกิด':'';
     return`<div class="pc${p.out?' out':''}" style="--c:${p.color}"><div class="pc-top"><b>${esc(p.name)}${isMine(p)&&NET.role!=='local'?' (คุณ)':''}</b><small>${esc(p.tag)}${p.bot?' · '+({easy:'ง่าย',normal:'กลาง',hard:'ยาก'})[p.diff]:''}</small></div>
-    <div class="pc-stats"><span>ชีวิต ${p.lives}</span><span>สังหาร ${p.kills}</span><span>${p.score} คะแนน</span></div>
+    <div class="pc-stats"><span>สังหาร ${p.kills}</span><span>ตาย ${p.deaths}</span><span>${p.score} คะแนน</span></div>
     <div class="pc-stats">${base}${st?`<span class="muted">${st}</span>`:''}</div></div>`}).join('');
 }
 let last=0,acc=0;
@@ -1263,8 +1261,8 @@ function endGame(winner,why){
   if(!winner&&why==='time')winner=[...G.players].filter(p=>!p.out).sort((a,b)=>b.score-a.score)[0]||ranked[0];
   if(winner)ranked.sort((a,b)=>(b===winner)-(a===winner));
   $('#winTxt').innerHTML=winner?`<span style="color:${winner.color}">${esc(winner.name)}</span> ชนะ${why==='time'?' (หมดเวลา)':''}`:'เสมอ';
-  $('#resTbl').innerHTML='<thead><tr><th>อันดับ</th><th>ผู้เล่น</th><th>คะแนน</th><th>สังหาร</th><th>ตาย</th><th>ฐาน</th></tr></thead><tbody>'+
-    ranked.map((p,i)=>`<tr><td>${i+1}</td><td><b style="color:${p.color}">${esc(p.name)}</b></td><td>${p.score}</td><td>${p.kills}</td><td>${p.deaths}</td><td>${p.baseAlive?p.coreHP+'/'+CORE_HP:'แตก'}</td></tr>`).join('')+'</tbody>';
+  $('#resTbl').innerHTML='<thead><tr><th>อันดับ</th><th>ผู้เล่น</th><th>คะแนน</th><th>สังหาร</th><th>ตาย</th><th>ชีวิตเหลือ</th></tr></thead><tbody>'+
+    ranked.map((p,i)=>`<tr><td>${i+1}</td><td><b style="color:${p.color}">${esc(p.name)}</b></td><td>${p.score}</td><td>${p.kills}</td><td>${p.deaths}</td><td>${p.out?'ตกรอบ':p.lives}</td></tr>`).join('')+'</tbody>';
   if(NET.role==='host'){hostSnap();broadcast({t:'over',w:winner?winner.slot:-1,why})}
   $('#againBtn').hidden=NET.role==='client';$('#backBtn').textContent=NET.role==='client'?'กลับห้อง (รอรอบใหม่)':'กลับห้อง';
   const me=G;setTimeout(()=>{if(G===me)$('#gOver').hidden=false},900);
@@ -1390,7 +1388,7 @@ function nameTex(text,color){const c=document.createElement('canvas');c.width=25
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
 function w3Cores(list){
   const T=THREE;if(R3.coreGrp)R3.scene.remove(R3.coreGrp);const grp=new T.Group();R3.coreGrp=grp;R3.scene.add(grp);R3.cores={};
-  for(const p of list){const[cx,cy]=p.base.core,col=new T.Color(p.color),g=new T.Group();g.position.set(cx+2,0,cy+2);
+  for(const p of list){if(!p.baseAlive)continue;const[cx,cy]=p.base.core,col=new T.Color(p.color),g=new T.Group();g.position.set(cx+2,0,cy+2);
     const plinth=new T.Mesh(new T.CylinderGeometry(2.1,2.35,.6,6),new T.MeshStandardMaterial({color:0x7a6450,roughness:.9}));plinth.position.y=.3;plinth.castShadow=plinth.receiveShadow=true;
     const crystal=new T.Mesh(new T.CylinderGeometry(1.15,1.15,2.3,6),new T.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:.8,roughness:.25,metalness:.2,flatShading:true}));crystal.position.y=2;crystal.castShadow=true;
     const ring=new T.Mesh(new T.TorusGeometry(1.75,.12,6,28),new T.MeshBasicMaterial({color:col}));ring.rotation.x=Math.PI/2;ring.position.y=.75;
@@ -1600,13 +1598,13 @@ function hud3D(tm){
   const banner=(t,sub)=>{c.fillStyle='rgba(10,12,14,.65)';c.fillRect(0,cy-44,LW,88);c.fillStyle='#e6b23d';c.font='700 38px "Chakra Petch",sans-serif';c.textAlign='center';c.fillText(t,cx,cy+8);
     if(sub){c.fillStyle='#e9e4d8';c.font='500 13px "IBM Plex Sans Thai",sans-serif';c.fillText(sub,cx,cy+30)}};
   if(G.phase==='build'){}
-  else if(G.countdown>0)banner(G.countdown>.4?String(Math.ceil(G.countdown-.2)):'ไป!','เก็บอาวุธตามแผนที่ ปกป้องแกนของคุณ ทำลายแกนของคนอื่น');
+  else if(G.countdown>0)banner(G.countdown>.4?String(Math.ceil(G.countdown-.2)):'ไป!','เก็บอาวุธตามแผนที่ คนสุดท้ายที่รอดชนะ');
   else if(G.paused)banner('พักเกม','กด P หรือปุ่ม เล่นต่อ');
   else if(me&&me.out&&G.elapsed-me.outAt<4)banner('คุณตกรอบ','ดูคนอื่นสู้ต่อ หรือกด ออก เพื่อกลับห้อง');
 }
 function w3RenderTo(target,tiles,active,pose){
   if(G||!initThree())return false;
-  const players=BASES.map((b,i)=>active[i]?{slot:i,color:COLORS[i].c,base:b,x:b.spawn[0]*SUB+16,y:b.spawn[1]*SUB+16,yaw:i&1?0:Math.PI,pitch:0,state:'alive',guns:[{t:['rifle','sniper','shotgun'][i%3]},null,{t:'pistol'}],cur:0,vest:1+i%3,helm:i%3,mv:0,step:0,inv:0,flash:0,baseAlive:true,coreHP:CORE_HP,coreT:0}:null).filter(Boolean);
+  const players=BASES.map((b,i)=>active[i]?{slot:i,color:COLORS[i].c,base:b,x:b.spawn[0]*SUB+16,y:b.spawn[1]*SUB+16,yaw:i&1?0:Math.PI,pitch:0,state:'alive',guns:[{t:['rifle','sniper','shotgun'][i%3]},null,{t:'pistol'}],cur:0,vest:1+i%3,helm:i%3,mv:0,step:0,inv:0,flash:0,baseAlive:false,coreHP:CORE_HP,coreT:0}:null).filter(Boolean);
   w3Load({t:tiles,dmg:null,players});w3Update(1,1,players,false);for(const g of R3.loot)g.visible=false;for(const s of R3.tracers)s.visible=false;for(const s of R3.fx)s.visible=false;R3.hover.visible=false;w3Flush();
   const r=R3.renderer;r.setScissorTest(false);r.setPixelRatio(1);r.setSize(target.width,target.height,false);r.setViewport(0,0,target.width,target.height);
   const cam=R3.ov;cam.aspect=target.width/target.height;cam.updateProjectionMatrix();cam.position.set(pose.pos[0],pose.pos[1],pose.pos[2]);cam.lookAt(pose.look[0],pose.look[1],pose.look[2]);
