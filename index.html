@@ -654,7 +654,9 @@ $('#reroll').onclick=()=>{lobby.seed=(Math.random()*1e6)|0;drawPreview();broadca
 /* ---------- online: PeerJS, the host's browser runs the match ---------- */
 const NET={role:'local',peer:null,conns:new Map(),host:null,mySlot:-1,inputs:{},sendT:0,tileLog:[],fxLog:[],feedLog:[],lastIn:'',inT:0};
 const qs=new URLSearchParams(location.search);
-function peerOpts(){const o={debug:0};if(qs.get('peerhost')){o.host=qs.get('peerhost');o.port=+(qs.get('peerport')||9000);o.path=qs.get('peerpath')||'/';o.secure=qs.get('peersecure')==='1'}return o}
+const ICE=[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']},{urls:'stun:stun.cloudflare.com:3478'},
+  {urls:['turn:openrelay.metered.ca:80','turn:openrelay.metered.ca:443','turn:openrelay.metered.ca:443?transport=tcp'],username:'openrelayproject',credential:'openrelayproject'}];
+function peerOpts(){const o={debug:0,config:{iceServers:ICE}};if(qs.get('peerhost')){o.host=qs.get('peerhost');o.port=+(qs.get('peerport')||9000);o.path=qs.get('peerpath')||'/';o.secure=qs.get('peersecure')==='1'}return o}
 const peerId=code=>'ironforts6-'+String(code).replace(/[^0-9a-z]/gi,'').toLowerCase();
 const normCode=v=>{const d=String(v).replace(/\D/g,'');return d.length===4?'TK-'+d:''};
 const cleanName=v=>String(v||'').replace(/[<>&"'`\\]/g,'').trim().slice(0,12);
@@ -696,7 +698,14 @@ function onHostData(conn,d){
   if(d.t==='hello'){
     if(c)return;
     const no=why=>{send(conn,{t:'reject',why});setTimeout(()=>{try{conn.close()}catch(e){}},300)};
-    if(G&&!G.over)return no('เกมกำลังเล่นอยู่ รอจบรอบนี้แล้วกดเข้าห้องใหม่');
+    if(G&&!G.over){
+      const bp=G.players.find(q=>q.bot&&!q.out)||G.players.find(q=>q.bot);if(!bp)return no('ห้องเต็มแล้ว ทุกช่องมีคนเล่นอยู่');
+      const name=cleanName(d.name)||'เพื่อน',i=bp.slot;
+      bp.kind='net';bp.bot=false;bp.name=name;bp.tag=name.slice(0,5);bp.lc={r:0,k:0,ws:0,hb:0,hm:0};bp.ready=true;
+      lobby.slots[i]='net';lobby.names[i]=name;NET.conns.set(conn.peer,{conn,slot:i,name,seen:Date.now()});NET.lootSent=-1;
+      send(conn,{t:'lobby',...lobbyState(i)});
+      send(conn,{t:'start',cfg:G.cfg,slots:lobby.slots,names:lobby.names,code:lobby.code,you:i,tiles:Array.from(G.t,v=>String.fromCharCode(48+v)).join('')});
+      addFeed(`<b style="color:${bp.color}">${name}</b> เข้ามาเล่นแทน${bp.out?'':'บอท'}`);buildSlots();return}
     let i=lobby.slots.indexOf('none');if(i<0)i=lobby.slots.findIndex(k=>k==='easy'||k==='normal'||k==='hard');
     if(i<0)return no('ห้องเต็มแล้ว');
     const name=cleanName(d.name)||'เพื่อน';
@@ -809,8 +818,8 @@ function clientStep(dt){
 }
 setInterval(()=>{
   const now=Date.now();
-  if(NET.role==='host')for(const c of[...NET.conns.values()]){if(!G||G.over)send(c.conn,{t:'p'});if(now-c.seen>8000){onPeerLeave(c.conn);try{c.conn.close()}catch(e){}}}
-  if(NET.role==='client'){if(!G)send(NET.host,{t:'p'});if(NET.lastRx&&now-NET.lastRx>8000)hostLost()}
+  if(NET.role==='host')for(const c of[...NET.conns.values()]){send(c.conn,{t:'p'});if(now-c.seen>12000){onPeerLeave(c.conn);try{c.conn.close()}catch(e){}}}
+  if(NET.role==='client'){send(NET.host,{t:'p'});if(NET.lastRx&&now-NET.lastRx>12000)hostLost()}
 },1000);
 $('#setSens').addEventListener('change',e=>{setSens(+e.target.value);LI.msg=null});
 $('#hostBtn').onclick=hostRoom;
