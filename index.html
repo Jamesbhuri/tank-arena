@@ -46,6 +46,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .hero-art canvas{display:block;width:100%;height:auto;image-rendering:pixelated;border-radius:3px}
 .hero-art figcaption{font-family:var(--f-mono);font-size:11px;color:var(--mute);padding-top:8px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .reqs{display:flex;flex-wrap:wrap;gap:6px}
+.quick{display:flex;flex-direction:column;gap:10px;max-width:520px;margin-top:6px}
+.quick input{background:var(--ink);border:1px solid var(--rule);border-radius:4px;padding:9px 11px;min-width:0}
+.btn.big{font-size:20px;padding:14px 22px}
+.quick-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.quick-row input{flex:1;min-width:140px}
+.quick-row .or{font-size:12.5px}
+.quick-msg{font-size:13px;color:var(--mute);min-height:1.5em}
+.quick-msg.hot{color:var(--brass)}
 .reqs span{font-size:12.5px;border:1px solid var(--rule);border-radius:3px;padding:2px 8px;color:#d6d0c3;background:var(--plate)}
 
 /* room card */
@@ -195,6 +203,17 @@ img{max-width:100%}
       <div class="reqs" aria-label="สิ่งที่ต้นแบบนี้ครอบคลุม">
         <span>เก็บอาวุธตามแผนที่</span><span>ปืน 4 แบบ · เกราะ · ยา</span><span>5–6 ผู้เล่น</span><span>ยิงกันเอง (PvP)</span><span>สร้างห้อง + เติมบอท</span>
       </div>
+      <div class="quick" aria-label="เริ่มเล่น">
+        <input type="text" id="quickName" maxlength="12" placeholder="ชื่อของคุณ (ไม่ใส่ก็ได้)" aria-label="ชื่อของคุณ">
+        <button class="btn go big" id="playNow" type="button">เล่นเลย · ยิงกับบอท 5 ตัว</button>
+        <div class="quick-row">
+          <button class="btn" id="quickHost" type="button">เปิดห้องเล่นกับเพื่อน</button>
+          <span class="muted or">หรือ</span>
+          <input type="text" id="quickCode" placeholder="รหัสห้องเพื่อน เช่น 4821" inputmode="numeric" aria-label="รหัสห้องเพื่อน">
+          <button class="btn" id="quickJoin" type="button">เข้าห้อง</button>
+        </div>
+        <span class="quick-msg" id="quickMsg" aria-live="polite">กดเล่นเลยได้ทันที ตั้งค่าห้องเพิ่มเติมอยู่ด้านล่าง</span>
+      </div>
     </div>
     <figure class="hero-art" style="margin:0">
       <canvas id="heroCv" width="1280" height="960" aria-label="ตัวอย่างแผนที่และรถถัง 6 คัน"></canvas>
@@ -206,7 +225,7 @@ img{max-width:100%}
     <div class="room-col">
       <div class="room-head">
         <div style="display:flex;flex-direction:column;gap:4px">
-          <span class="eyebrow">สร้างห้อง</span>
+          <span class="eyebrow">ตั้งค่าห้อง (ไม่จำเป็น)</span>
           <h2>ห้องของคุณ</h2>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
@@ -828,7 +847,7 @@ function startGame(cfgIn,tilesIn){
     const b=BASES[i];const ring=[];const[cx,cy]=b.core;
     for(let y=cy-2;y<=cy+5;y++)for(let x=cx-2;x<=cx+5;x++){if(!(x>=cx&&x<cx+4&&y>=cy&&y<cy+4))ring.push(y*GW+x)}
     const human=k==='p1'||k==='net';
-    const hostName=NET.role!=='local'&&k==='p1'?cleanName($('#myName').value):'';
+    const hostName=k==='p1'?cleanName($('#myName').value):'';
     const nm=k==='net'?(lobby.names[i]||'เพื่อน'):hostName||(k==='p1'?'ผู้เล่น 1':k==='p2'?'ผู้เล่น 2':'บอท'+COLORS[i].n);
     G.players.push({slot:i,kind:k,bot:!human,diff:human?null:k,color:COLORS[i].c,ready:false,
       name:nm,tag:k==='net'||hostName?nm.slice(0,5):k==='p1'?'P1':k==='p2'?'P2':'B'+(i+1),
@@ -845,7 +864,7 @@ function startGame(cfgIn,tilesIn){
   $('#bbReady').disabled=false;$('#btnPause').hidden=NET.role==='client';
   if(NET.role!=='client')addFeed('ห้อง '+lobby.code+' เริ่มแล้ว · ผู้เล่น '+G.players.length+' คน');
   if(NET.role==='host'){const tiles=Array.from(G.t,v=>String.fromCharCode(48+v)).join('');NET.tileLog=[];for(const c of NET.conns.values())send(c.conn,{t:'start',cfg,slots:lobby.slots,names:lobby.names,code:lobby.code,you:c.slot,tiles});NET.sendT=0}
-  fit();cancelAnimationFrame(raf);last=performance.now();acc=0;raf=requestAnimationFrame(loop);
+  renderSide();fit();cancelAnimationFrame(raf);last=performance.now();acc=0;raf=requestAnimationFrame(loop);
 }
 /* ---------- base building ---------- */
 const CW=GW/2,CH=GH/2;let tool='dirt',painting=false,paintMode=null,lastPaint='';
@@ -1208,7 +1227,7 @@ function update(dt){
   if(G.over||G.paused)return;
   if(G.phase==='build'){G.buildT-=dt;if(G.buildT<=0)finishBuild();G.uiT-=dt;if(G.uiT<=0){G.uiT=.12;renderSide();if(G.phase==='build')renderBuildBar()}return}
   if(!G.looted){G.looted=true;scatterLoot(LOOT_START)}
-  if(G.countdown>0){G.countdown-=dt;return}
+  if(G.countdown>0){G.countdown-=dt;G.uiT-=dt;if(G.uiT<=0){G.uiT=.25;renderSide()}return}
   G.elapsed+=dt;
   if(G.cfg.time>0&&G.elapsed>=G.cfg.time){endGame(null,'time');return}
   G.itemT-=dt;if(G.itemT<=0){if(G.loot.length<LOOT_MAX)scatterLoot(4);G.itemT=G.cfg.itemEvery*(.7+Math.random()*.6)}
@@ -1634,10 +1653,14 @@ function hud3D(tm){
       c.fillStyle='rgba(0,0,0,.6)';c.fillRect(cx-110,LH*.66-14,220,22);txt(`F  เก็บ${d.n}${d.kind==='ammo'?' ×'+l.amt:''}${useful?'':' (มีแล้ว)'}`,cx,LH*.66+2,12,useful?d.c:'#8e98a1')}}
     if(me.toast)txt(me.toast.text,cx,LH*.74,12,'#e9e4d8');
     if(LI.msg){txt(LI.msg.text,cx,LH*.8,12,'#e6b23d');if((LI.msg.t-=1/60)<=0)LI.msg=null}
-    if(me.state==='dead')txt('ถูกยิงตาย · เกิดใหม่ที่ฐานใน '+Math.max(0,Math.ceil(me.respawnT))+' วิ',cx,cy-60,15,'#e4583f',null,700);
+    if(me.state==='dead'&&me.deaths>0)txt('ถูกยิงตาย · เกิดใหม่ที่ฐานใน '+Math.max(0,Math.ceil(me.respawnT))+' วิ',cx,cy-60,15,'#e4583f',null,700);
     const deg=((LI.yaw*180/Math.PI)%360+360)%360,dirs=['เหนือ','ตะวันออกเฉียงเหนือ','ตะวันออก','ตะวันออกเฉียงใต้','ใต้','ตะวันตกเฉียงใต้','ตะวันตก','ตะวันตกเฉียงเหนือ'];
     txt(Math.round(deg)+'° '+dirs[Math.round(deg/45)%8],cx,16,11,'#e9e4d8');
-    if(!locked&&!matchMedia('(pointer: coarse)').matches&&!G.over&&!G.paused&&G.countdown<=0)txt('คลิกที่จอเพื่อควบคุมด้วยเมาส์ · กด Esc เพื่อปล่อยเมาส์',cx,cy-90,13,'#e6b23d',null,700);
+    if(!locked&&!matchMedia('(pointer: coarse)').matches&&!G.over&&!G.paused){const bw=300,bh=150,bx=cx-bw/2,by=cy-bh/2-10;
+      c.fillStyle='rgba(10,12,14,.82)';c.fillRect(bx,by,bw,bh);c.strokeStyle='#e6b23d';c.lineWidth=1.5;c.strokeRect(bx+.75,by+.75,bw-1.5,bh-1.5);
+      txt('คลิกที่จอเพื่อเริ่มเล่น',cx,by+30,18,'#e6b23d',null,700);
+      const L=['WASD เดิน · Shift วิ่ง · เมาส์ เล็ง','คลิกซ้าย ยิง · คลิกขวา เล็งแม่น','F เก็บของ · R รีโหลด · 1 2 3 สลับปืน','4 ผ้าพันแผล · 5 ชุดปฐมพยาบาล · Esc ปล่อยเมาส์'];
+      L.forEach((l,i)=>txt(l,cx,by+58+i*20,11.5,'#e9e4d8',null,500))}
   }
   if(G.flash>0){c.fillStyle=`rgba(255,240,210,${G.flash*.7})`;c.fillRect(0,0,LW,LH)}
   if(G.phase!=='build'){const mw=150,mh=112.5,mx=LW-mw-8,my=8,kk=mw/W;
@@ -1649,7 +1672,7 @@ function hud3D(tm){
   const banner=(t,sub)=>{c.fillStyle='rgba(10,12,14,.65)';c.fillRect(0,cy-44,LW,88);c.fillStyle='#e6b23d';c.font='700 38px "Chakra Petch",sans-serif';c.textAlign='center';c.fillText(t,cx,cy+8);
     if(sub){c.fillStyle='#e9e4d8';c.font='500 13px "IBM Plex Sans Thai",sans-serif';c.fillText(sub,cx,cy+30)}};
   if(G.phase==='build'){}
-  else if(G.countdown>0)banner(G.countdown>.4?String(Math.ceil(G.countdown-.2)):'ไป!','เก็บอาวุธตามแผนที่ คนสุดท้ายที่รอดชนะ');
+  else if(G.countdown>0&&(locked||matchMedia('(pointer: coarse)').matches))banner(G.countdown>.4?String(Math.ceil(G.countdown-.2)):'ไป!','เก็บอาวุธตามแผนที่ คนสุดท้ายที่รอดชนะ');
   else if(G.paused)banner('พักเกม','กด P หรือปุ่ม เล่นต่อ');
   else if(me&&me.out&&G.elapsed-me.outAt<4)banner('คุณตกรอบ','ดูคนอื่นสู้ต่อ หรือกด ออก เพื่อกลับห้อง');
 }
@@ -1678,21 +1701,36 @@ function fit(){
 }
 addEventListener('resize',fit);
 
-$('#startBtn').onclick=()=>startGame();
+function lockMouse(){if(matchMedia('(pointer: coarse)').matches)return;try{const r=cv.requestPointerLock&&cv.requestPointerLock();if(r&&r.catch)r.catch(()=>{})}catch(e){}}
+function quickSay(t,hot){const m=$('#quickMsg');m.textContent=t;m.classList.toggle('hot',!!hot)}
+for(const id of['#hostMsg','#joinMsg','#startMsg'])new MutationObserver(()=>{const t=$(id).textContent.trim();if(t)quickSay(t,true)}).observe($(id),{childList:true,characterData:true,subtree:true});
+$('#quickName').addEventListener('input',()=>{$('#myName').value=$('#quickName').value});
+$('#myName').addEventListener('input',()=>{$('#quickName').value=$('#myName').value});
+function refreshQuick(){const b=$('#playNow');
+  if(NET.role==='client'){b.disabled=true;b.textContent='รอเจ้าของห้องกดเริ่ม'}
+  else{b.disabled=false;const n=lobby.slots.filter(k=>k==='net').length;b.textContent=NET.role==='host'?(n?`เริ่มเกม · เพื่อน ${n} คน + บอท`:'เริ่มเกม · ยังไม่มีเพื่อนเข้า (เล่นกับบอทได้)'):'เล่นเลย · ยิงกับบอท 5 ตัว'}
+  $('#quickHost').disabled=NET.role!=='local';$('#quickJoin').textContent=NET.role==='client'?'ออกจากห้อง':'เข้าห้อง'}
+$('#playNow').onclick=()=>{if(NET.role==='client')return;saveName();if(!lobby.slots.includes('p1')){lobby.slots[lobby.slots.findIndex(k=>k!=='net')]='p1';buildSlots()}startGame();if(G)lockMouse()};
+$('#quickHost').onclick=()=>{saveName();hostRoom();setTimeout(()=>{if(NET.role==='host')quickSay('เปิดห้องแล้ว รหัส '+lobby.code+' · ส่งรหัสหรือลิงก์ให้เพื่อน (ปุ่มคัดลอกลิงก์อยู่ด้านล่าง) แล้วกดเริ่มเกม',true)},1500)};
+$('#quickJoin').onclick=()=>{if(NET.role!=='client')$('#joinCode').value=$('#quickCode').value;joinRoom()};
+$('#quickCode').addEventListener('keydown',e=>{if(e.key==='Enter')$('#quickJoin').click()});
+setInterval(refreshQuick,700);
+$('#startBtn').onclick=()=>{startGame();if(G)lockMouse()};
 $('#btnPause').onclick=togglePause;
 $('#btnCam').onclick=toggleCam;
 $('#btnMute').onclick=()=>{muted=!muted;$('#btnMute').textContent=muted?'เสียง: ปิด':'เสียง: เปิด';if(!muted)ensureAudio()};
 let quitArm=0;
 $('#btnQuit').onclick=()=>{if(NET.role==='client'){if(G&&G.over){$('#backBtn').click();return}const b=$('#btnQuit');if(Date.now()-quitArm<3000){b.textContent='ออก';leaveRoom();$('#joinMsg').textContent='ออกจากห้องแล้ว'}else{quitArm=Date.now();b.textContent='กดอีกครั้งเพื่อออกจากห้อง';setTimeout(()=>{b.textContent='ออก'},3000)}return}
   if(G&&G.over){quitGame();return}const b=$('#btnQuit');if(Date.now()-quitArm<3000){b.textContent='ออก';quitGame()}else{quitArm=Date.now();b.textContent='กดอีกครั้งเพื่อออก';setTimeout(()=>{b.textContent='ออก'},3000)}};
-$('#againBtn').onclick=()=>{$('#gOver').hidden=true;startGame()};
+$('#againBtn').onclick=()=>{$('#gOver').hidden=true;startGame();if(G)lockMouse()};
 $('#backBtn').onclick=()=>{if(NET.role==='client'){G=null;cancelAnimationFrame(raf);$('#game').hidden=true;$('#lobby').hidden=false;$('#gOver').hidden=true;return}quitGame()};
 
 window.__arena={get G(){return G},get NET(){return NET},get R3(){return R3},startGame,lobby,step(n){for(let i=0;i<n&&G&&!G.over;i++)update(1/60)}};
 try{$('#myName').value=cleanName(localStorage.getItem('if6-name')||'')}catch(e){}
 setSens(LI.sens);LI.msg=null;
 newCode();buildSlots();buildItemList();drawPreview();drawHero();
-if(normCode(qs.get('room')||'')){$('#joinCode').value=normCode(qs.get('room'));$('#joinMsg').textContent='มีคนชวนคุณเข้าห้อง '+normCode(qs.get('room'))+' ใส่ชื่อแล้วกด เข้าห้อง';setTimeout(()=>{try{$('.room').scrollIntoView({block:'start'});$('#myName').focus()}catch(e){}},300)}
+$('#quickName').value=$('#myName').value;
+if(normCode(qs.get('room')||'')){const rc=normCode(qs.get('room'));$('#joinCode').value=rc;$('#quickCode').value=rc.replace('TK-','');quickSay('มีคนชวนคุณเข้าห้อง '+rc+' · ใส่ชื่อแล้วกด เข้าห้อง',true);$('#playNow').hidden=true;setTimeout(()=>{try{$('#quickName').focus()}catch(e){}},300)}
 })();
 </script>
 
